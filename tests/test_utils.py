@@ -1,6 +1,6 @@
 import os
 
-from events.utils import env, curry, singleton, lowercase_first
+from abacusevents.utils import env, curry, singleton, lowercase_first
 
 
 def test_env_is_short_for_os_dot_environ():
@@ -11,6 +11,10 @@ def test_env_is_short_for_os_dot_environ():
 def test_env_lets_you_specify_a_default_value():
     default = env('NOT_THERE', 'FOO')
     assert default == 'FOO'
+
+
+def test_env_wont_explode():
+    assert env('NOTHING') is None
 
 
 def test_curry_is_ok():

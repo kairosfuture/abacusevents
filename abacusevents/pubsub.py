@@ -1,6 +1,6 @@
 import json
 
-from .events import Event
+from .abacusevents import Event
 from .utils import singleton, curry, env
 from google.api_core.exceptions import AlreadyExists
 from google.cloud.pubsub import PublisherClient, SubscriberClient
@@ -62,10 +62,12 @@ class Subscription(object):
             self.q.put(job)
 
         except json.JSONDecodeError as error:
-            self.events['JSONDecodeError'](str(error))
+            self.events.get('JSONDecodeError', False) \
+                and self.events['JSONDecodeError'](error)
 
         except Exception as error:
-            self.events['Exception'](str(error))
+            self.events.get('Exception', False) \
+                and self.events['Exception'](error)
 
         finally:
             message.ack()

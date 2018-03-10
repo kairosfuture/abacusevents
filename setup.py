@@ -12,9 +12,9 @@ from shutil import rmtree
 from setuptools import find_packages, setup, Command
 
 # Package meta-data.
-NAME = 'events'
+NAME = 'abacusevents'
 DESCRIPTION = 'Some common Python tools for sending events across Abacus services'
-URL = 'https://github.com/kairosfuture/events'
+URL = 'https://github.com/kairosfuture/abacusevents'
 EMAIL = 'info@a3j.se'
 AUTHOR = 'Awesome Soul'
 REQUIRES_PYTHON = '>=3.5.3'

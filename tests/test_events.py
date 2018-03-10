@@ -1,6 +1,6 @@
 import json
 
-from events import Ping, Pong
+from abacusevents import Ping, Pong
 
 mandatory_props = ['sessionId', 'jobId', 'taskId', 'data', 'done', 'observedAt']
 
