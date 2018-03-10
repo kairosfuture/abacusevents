@@ -1,11 +1,9 @@
+from events import Ping
+from events.pubsub import _assert_topic, _assert_subscription, _emit_event, subscribe
+from events.utils import env
+from google.api_core.exceptions import AlreadyExists
 from unittest import TestCase
 from unittest.mock import Mock, patch
-
-from google.api_core.exceptions import AlreadyExists
-
-from events import Ping
-from events.pubsub import _assert_topic, _assert_subscription, _emit_event, PubSub, subscribe, Subscription
-from events.utils import env
 
 
 def test_assert_topic_hides_exception_when_topic_already_exists():
@@ -59,3 +57,31 @@ class PubSubTestCase(TestCase):
          .on('baz', 'qux'))
         assert subscription.events['foo'] == 'bar'
         assert subscription.events['baz'] == 'qux'
+
+    @patch('events.pubsub.PubSub')
+    @patch('events.pubsub.Subscription.get_next', return_value='foo')
+    def test_registered_listener_is_called_when_exception_raised(self, __, _):
+        subscription = subscribe('sub', 'topic')
+        message_mock = Mock()
+        message_mock.data.decode = Mock(return_value='foo')
+        mock_error_handler = Mock()
+        subscription.on('JSONDecodeError', mock_error_handler)
+
+        subscription.q.get = Mock(side_effect=subscription._callback(message_mock))
+
+        mock_error_handler.assert_called_once()
+        message_mock.assert_not_called()
+
+    @patch('events.pubsub.PubSub')
+    @patch('events.pubsub.Subscription.get_next', return_value='foo')
+    def test_it_wont_explode_if_exception_raised_and_no_listener_is_registered(self, __, _):
+        subscription = subscribe('sub', 'topic')
+        message_mock = Mock()
+        message_mock.data.decode = Mock(return_value='{"invalid":"json"}}}}}}')
+
+        subscription.q.get = Mock(side_effect=subscription._callback(message_mock))
+
+        message_mock.data.decode.assert_called_once_with('utf-8')
+        message_mock.ack.assert_called_once()
+        message_mock.assert_not_called()
+        assert subscription.get_next() == 'foo'

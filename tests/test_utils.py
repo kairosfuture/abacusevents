@@ -13,6 +13,10 @@ def test_env_lets_you_specify_a_default_value():
     assert default == 'FOO'
 
 
+def test_env_wont_explode():
+    assert env('NOTHING') is None
+
+
 def test_curry_is_ok():
     add = curry(lambda a: lambda b: a + b)
     add1 = add(1)

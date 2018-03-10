@@ -62,10 +62,12 @@ class Subscription(object):
             self.q.put(job)
 
         except json.JSONDecodeError as error:
-            self.events['JSONDecodeError'](str(error))
+            self.events.get('JSONDecodeError', False) \
+                and self.events['JSONDecodeError'](error)
 
         except Exception as error:
-            self.events['Exception'](str(error))
+            self.events.get('Exception', False) \
+                and self.events['Exception'](error)
 
         finally:
             message.ack()
