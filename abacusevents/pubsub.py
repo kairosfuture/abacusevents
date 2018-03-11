@@ -56,6 +56,12 @@ class Subscription(object):
         self.subscription = subscription.open(self._callback)
         self.events = {}
 
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        yield self.get_next()
+
     def _callback(self, message):
         try:
             job = json.loads(message.data.decode('utf-8'))
