@@ -34,7 +34,6 @@ def _emit_event(publisher_client: PublisherClient, topic: str, event: Event) -> 
     _assert_topic(topic_path, publisher_client)
 
     # Publish the serialized Event
-    print(publisher_client, topic_path, event)
     publisher_client.publish(topic_path, data=event.serialize())
 
 
