@@ -59,7 +59,7 @@ class Subscription(object):
         return self
 
     def __next__(self):
-        yield self.get_next()
+        return self.q.get()
 
     def _callback(self, message):
         try:
@@ -76,9 +76,6 @@ class Subscription(object):
 
         finally:
             message.ack()
-
-    def get_next(self):
-        return self.q.get()
 
     def on(self, event, callback):
         self.events[event] = callback

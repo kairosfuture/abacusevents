@@ -59,7 +59,7 @@ class PubSubTestCase(TestCase):
         assert subscription.events['baz'] == 'qux'
 
     @patch('abacusevents.pubsub.PubSub')
-    @patch('abacusevents.pubsub.Subscription.get_next', return_value='foo')
+    @patch('abacusevents.pubsub.Subscription.__next__', return_value='foo')
     def test_registered_listener_is_called_when_exception_raised(self, __, _):
         subscription = subscribe('sub', 'topic')
         message_mock = Mock()
@@ -73,7 +73,7 @@ class PubSubTestCase(TestCase):
         message_mock.assert_not_called()
 
     @patch('abacusevents.pubsub.PubSub')
-    @patch('abacusevents.pubsub.Subscription.get_next', return_value='foo')
+    @patch('abacusevents.pubsub.Subscription.__next__', return_value='foo')
     def test_it_wont_explode_if_exception_raised_and_no_listener_is_registered(self, __, _):
         subscription = subscribe('sub', 'topic')
         message_mock = Mock()
@@ -84,4 +84,4 @@ class PubSubTestCase(TestCase):
         message_mock.data.decode.assert_called_once_with('utf-8')
         message_mock.ack.assert_called_once()
         message_mock.assert_not_called()
-        assert subscription.get_next() == 'foo'
+        assert next(subscription) == 'foo'
