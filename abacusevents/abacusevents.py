@@ -16,7 +16,7 @@ class Event(ABC):
     def serialize(self):
         a_dict = self.__dict__
         a_dict['event'] = lowercase_first(self.__class__.__name__)
-        return json.dumps(a_dict).encode('utf-8')
+        return json.dumps(a_dict)
 
 
 class Ping(Event):
