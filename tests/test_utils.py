@@ -1,6 +1,6 @@
 import os
 
-from abacusevents.utils import env, curry, singleton, lowercase_first
+from abacusevents.utils import env, lowercase_first
 
 
 def test_env_is_short_for_os_dot_environ():
@@ -15,24 +15,6 @@ def test_env_lets_you_specify_a_default_value():
 
 def test_env_wont_explode():
     assert env('NOTHING') is None
-
-
-def test_curry_is_ok():
-    add = curry(lambda a: lambda b: a + b)
-    add1 = add(1)
-    assert add1.__class__.__name__ == 'function'
-
-    result = add1(1)
-    assert result == 2
-
-
-def test_singleton_is_ok_too():
-    @singleton
-    class Foo(object):
-        pass
-    a = Foo()
-    b = Foo()
-    assert id(a) == id(b)
 
 
 def test_lowercase_first():

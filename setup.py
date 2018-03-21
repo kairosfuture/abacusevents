@@ -17,7 +17,7 @@ DESCRIPTION = 'Some common Python tools for sending events across Abacus service
 URL = 'https://github.com/kairosfuture/abacusevents'
 EMAIL = 'info@a3j.se'
 AUTHOR = 'Awesome Soul'
-REQUIRES_PYTHON = '>=3.5.3'
+REQUIRES_PYTHON = '>=3.4.6'
 VERSION = None
 
 # What packages are required for this module to be executed?
@@ -109,6 +109,7 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
+ 	'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
