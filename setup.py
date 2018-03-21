@@ -21,9 +21,7 @@ REQUIRES_PYTHON = '>=3.4.6'
 VERSION = None
 
 # What packages are required for this module to be executed?
-REQUIRED = [
-    'google.cloud.pubsub'
-]
+REQUIRED = []
 
 # The rest you shouldn't have to touch too much :)
 # ------------------------------------------------
